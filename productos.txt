@@ -1,0 +1,2 @@
+{"id":1,"timestamp":1618190582261,"nombre":"Mochila pequeña","descripcion":"Esto es un producto actualizado"},
+{"id":2,"timestamp":1618190730477,"nombre":"Mochila grande","descripcion":"Esto es un producto actualizado"},
