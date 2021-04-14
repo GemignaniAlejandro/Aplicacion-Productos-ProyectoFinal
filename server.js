@@ -13,7 +13,7 @@ const carritoRouter = require("./routes/carrito");
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/", (req, res) => res.send("principal"));
+app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
 
 // RUTAS
 app.use("/productos",productosRouter);

@@ -1,2 +1,7 @@
 {"id":1,"timestamp":1618190582261,"nombre":"Mochila pequeña","descripcion":"Esto es un producto actualizado"},
 {"id":2,"timestamp":1618190730477,"nombre":"Mochila grande","descripcion":"Esto es un producto actualizado"},
+{"id":3,"timestamp":1618275000357,"nombre":"Pizarra","descripcion":"Una simple pizarra"},
+{"id":4,"timestamp":1618275018471,"nombre":"Pizarra","descripcion":"Una simple pizarra"},
+{"id":5,"timestamp":1618275019421,"nombre":"Pizarra","descripcion":"Una simple pizarra"},
+{"id":6,"timestamp":1618275020112,"nombre":"Pizarra","descripcion":"Una simple pizarra"},
+{"id":7,"timestamp":1618348921877,"nombre":"Lapicera","descripcion":"Una simple lapicera"},
