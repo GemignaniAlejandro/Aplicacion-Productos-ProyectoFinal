@@ -24,7 +24,8 @@ let agregar_producto_carrito = (req, res) =>
     let producto = Producto.mostrarProducto(id_producto);
     let carrito = new Carrito(producto)
     Carrito.agregarProducto(carrito);
-    res.redirect(BASE_URL);
+    //res.redirect(BASE_URL);
+    res.json(carrito);
 }
 
 let borrar_producto_carrito = (req, res) => 
