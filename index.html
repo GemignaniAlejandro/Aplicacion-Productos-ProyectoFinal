@@ -8,31 +8,38 @@
     <title>Index html</title>
 </head>
 <body>
+    <div class="container mt-5">
+    </div>
+    
     <div class="container" id="container">
-        <div class="row" id="row">
+        <div class="row" id="row-productos">
         </div>
     </div>
     
-    
     <script>
-        const row = document.getElementById("row");
+        const rowProductos = document.getElementById("row-productos");
         
             fetch("http://localhost:8080/productos")
             .then(response => response.json())
             .then(productos => 
             {
                 productos.forEach(producto => {
-                    row.innerHTML += 
+                    rowProductos.innerHTML += 
                     `
-                        <div class="col-sm-3">
-                            <div class="card" style="margin-top:16px; width:256px;">
+                        <div class="col-md-3">
+                            <div class="card mt-5" style="width:208px; height: 400px;">
+                            <img src="${producto.foto}" style="height: 128px; width: 128px; margin: auto;" class="card-img-top" alt="${producto.nombre}">
                                 <div class="card-body">
                                     <h5 class="card-title">${producto.nombre}</h5>
-                                    <p class="card-text">${producto.descripcion}<br>Fecha: ${producto.timestamp}</p>
-                                    <a href="http://localhost:8080/productos/${producto.id}" class="btn btn-primary">Añadir al carrito</a>
+                                    <p class ="card-subtitle text-muted">${producto.descripcion}</p>
+                                    <p class="card-text mb-1"><br>Fecha: ${producto.timestamp}<br>Precio: $${producto.precio}<br>Código: ${producto.codigo}<br>Stock: ${producto.stock}</p>
+                                    <form action="/carrito/${producto.id}" method="POST">
+                                        <button type="submit" class="btn btn-primary btn-sm">Agregar al carrito</button>
+                                    </form>
+                                    <a href="http://localhost:8080/productos/borrar/${producto.id}" class="btn btn-danger btn-sm">Borrar</a>
                                 </div>
                             </div>
-                        </div>    
+                        </div>           
                     `
                 });
             });

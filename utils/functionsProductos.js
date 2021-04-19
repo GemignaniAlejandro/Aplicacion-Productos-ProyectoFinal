@@ -34,7 +34,7 @@ let getProducto = (id) =>
     }
     else
     {
-        return productoSeleccionado;
+        return productoSeleccionado[0];
     } 
 }
 
@@ -53,7 +53,7 @@ let addProducto = async (objProducto) =>
     }
 }
 
-let updateProducto = (id, {timestamp, nombre, descripcion}) => 
+let updateProducto = (id, {timestamp, nombre, descripcion, codigo, foto, precio, stock}) => 
 {
     try 
     {
@@ -75,6 +75,10 @@ let updateProducto = (id, {timestamp, nombre, descripcion}) =>
                     producto.timestamp = timestamp;
                     producto.nombre = nombre;
                     producto.descripcion = descripcion;
+                    producto.codigo = codigo;
+                    producto.foto = foto;
+                    producto.precio = precio;
+                    producto.stock = stock;
                 }
             });
 

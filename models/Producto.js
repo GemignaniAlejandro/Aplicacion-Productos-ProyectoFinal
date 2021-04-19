@@ -2,19 +2,16 @@ const functions = require('../utils/functionsProductos');
 
 class Producto 
 {
-    constructor(/*timestamp, nombre, descripcion, codigo, foto, precio, stock*/nombre, descripcion)
+    constructor(nombre, descripcion, codigo, foto, precio, stock)
     {
-            /*
-            
-            codigo: codigo,
-            foto: foto,
-            precio: precio,
-            stock: stock*/
             this.id = functions.getProductos().length+1,
-            this.timestamp = Date.now();
+            this.timestamp = Date.now(),
             this.nombre = nombre,
             this.descripcion = descripcion
-        
+            this.codigo = codigo,
+            this.foto = foto,
+            this.precio = precio, 
+            this.stock = stock     
     }
     
     static listarProductos()

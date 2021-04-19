@@ -8,8 +8,8 @@ router.get("/:id?", productosController.listar_productos);
 
 router.post("/", esAdminMiddle, productosController.agregar_producto);
 
-router.put("/:id", esAdminMiddle, productosController.actualizar_producto);
+router.post("/actualizar/:id", esAdminMiddle, productosController.actualizar_producto);
 
-router.delete("/:id", esAdminMiddle, productosController.borrar_producto);
+router.get("/borrar/:id", esAdminMiddle, productosController.borrar_producto);
 
 module.exports = router

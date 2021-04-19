@@ -21,7 +21,11 @@ let agregar_producto = (req, res) =>
 {
     const nombre = req.body.nombre;
     const descripcion = req.body.descripcion;
-    let producto = new Producto(nombre, descripcion);
+    const codigo = req.body.codigo;
+    const foto = req.body.foto;
+    const precio = req.body.precio;
+    const stock = req.body.stock;
+    let producto = new Producto(nombre, descripcion, codigo, foto, precio, stock);
     Producto.agregarProducto(producto);
     res.json(producto);
 }
@@ -31,7 +35,11 @@ let actualizar_producto = (req, res) =>
     const id = parseInt(req.params.id);
     const nombre = req.body.nombre;
     const descripcion = req.body.descripcion;
-    let producto = new Producto(nombre, descripcion)
+    const codigo = req.body.codigo;
+    const foto = req.body.foto;
+    const precio = req.body.precio;
+    const stock = req.body.stock;
+    let producto = new Producto(nombre, descripcion, codigo, foto, precio, stock);
     res.json(Producto.actualizarProducto(id, producto));
 }
 

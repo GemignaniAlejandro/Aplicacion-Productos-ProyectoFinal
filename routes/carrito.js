@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const carritoController = require('../controllers/carrito');
 
-router.get("/:id?", (req, res) => res.send("Listar productos guardados por su ID de carrito."));
+router.get("/:id?", carritoController.listar_productos_carrito);
 
-router.post("/:id_producto", (req, res) => res.send("Agregar uno o más productos al carrito por su ID."));
+router.post("/:id_producto", carritoController.agregar_producto_carrito);
 
-router.delete("/:id", (req, res) => res.send("Borrar un producto por su ID de carrito"));
+router.delete("/:id", carritoController.borrar_producto_carrito);
 
 module.exports = router;

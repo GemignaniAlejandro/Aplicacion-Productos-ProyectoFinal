@@ -1,28 +1,33 @@
-const functions = require('../utils/functionsProductos');
+const functions = require('../utils/functionsCarrito');
 
 class Carrito 
 {
-    constructor(timestamp, producto)
+    constructor(producto)
     {
-        this.id = 1,
-        this.timestamp = timestamp,
+        this.id = functions.getProductosCarrito().length+1,
+        this.timestamp = Date.now(),
         this.producto = producto
     }
 
     static listarProductos()
     {
-
+        return functions.getProductosCarrito();
     }
 
-    static agregarProducto()
+    static mostrarProducto(id)
     {
-
+        return functions.getProductoCarrito(id);
     }
 
-    static borrarProducto()
+    static agregarProducto(producto)
     {
-
+        functions.addProductoCarrito(producto);
     }
+
+    static borrarProducto(id)
+    {
+        return functions.deleteProductoCarrito(id);
+    }   
 }
 
 module.exports = Carrito;

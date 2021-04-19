@@ -19,8 +19,6 @@ app.get("/", (req, res) => res.sendFile(__dirname + '/index.html'));
 app.use("/productos",productosRouter);
 app.use("/carrito", carritoRouter);
 
-
-
 httpServer.listen(PORT, () =>
 {
     console.log(`Servidor en puerto ${PORT}`);
