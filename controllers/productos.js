@@ -1,4 +1,4 @@
-let Producto = require("../models/Producto");
+let Producto = require("../models/filesystem/Producto");
 
 let listar_productos = (req, res) =>
 {

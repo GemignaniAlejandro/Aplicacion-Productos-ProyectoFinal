@@ -1,4 +1,4 @@
-const functions = require('../utils/functionsCarrito');
+const functions = require('../../utils/functionsCarrito');
 
 class Carrito 
 {

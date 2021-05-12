@@ -1,5 +1,5 @@
-let Carrito = require("../models/Carrito");
-let Producto = require("../models/Producto");
+let Carrito = require("../models/filesystem/Carrito");
+let Producto = require("../models/filesystem/Producto");
 const BASE_URL = process.env.BASE_URL;
 
 let listar_productos_carrito = (req, res) => 
