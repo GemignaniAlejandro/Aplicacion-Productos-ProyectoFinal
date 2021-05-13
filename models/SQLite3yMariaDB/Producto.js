@@ -1,43 +1,43 @@
-const {optionsMySQL, optionsSQLite3} = require("../../options/SQLDatabases");
-const knexSQLite3 = require("knex")(optionsSQLite3);
+const functions = require('../../utils/SQL/functionsProductos');
 
-let getProductos = async() => 
+class Producto 
 {
-    try {
-        let productos = await knexSQLite3.from("productos")
-        .select("*");
-        return productos;
-    } catch (error) {
-        return [];
-    }
-}
-
-let getProducto = async(id) =>
-{
-    try
+    constructor(nombre, descripcion, codigo, foto, precio, stock)
     {
-        let producto = await knexSQLite3.from("productos").select("*").where("id", "=", id)
-        return producto;
+            this.id = functions.getProductos().length+1,
+            this.timestamp = Date.now(),
+            this.nombre = nombre,
+            this.descripcion = descripcion
+            this.codigo = codigo,
+            this.foto = foto,
+            this.precio = precio, 
+            this.stock = stock     
     }
-    catch(error)
+    
+    static listarProductos()
     {
-        return {};
+        return functions.getProductos();
+    }
+
+    static mostrarProducto(id)
+    {
+        return functions.getProducto(id);
+    }
+
+    static agregarProducto(producto)
+    {  
+        functions.addProducto(producto);
+    }
+    
+    static actualizarProducto(id, producto)
+    {
+        return functions.updateProducto(id, producto);
+    }
+    
+    static borrarProducto(id)
+    {
+        return functions.deleteProducto(id);
     }
 }
 
-let addProducto = async(producto) =>
-{   
-    await knex("productos").insert({
-        nombre: producto.nombre,
-        descripcion: producto.descripcion,
-        codigo: producto.codigo,
-        foto: producto.foto,
-        precio: producto.precio,
-        stock: producto.stock
-
-    })
-        .then(() => console.log("agregado"))
-        .catch((err) => {console.log(err); throw err;});
-}
-
-module.exports = { getProductos, getProducto, addProducto }
+module.exports = Producto;
