@@ -9,6 +9,34 @@
 </head>
 <body>
     <div class="container mt-5">
+        <h3 class="titulo">Ingresa el producto</h3>
+        <form id="form" action="/productos" method="post">
+            <label><b><i>Nombre</i></b></label><br>
+            
+            <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" placeholder="Nombre del producto"><br>
+
+            <label><b><i>Descripción</i></b></label><br>
+            
+            <input id="descripcion" class="form-control form-control-sm" type="text" name="descripcion" placeholder="Descripción del producto"><br>
+
+            <label><b><i>Código</i></b></label><br>
+            
+            <input id="codigo" class="form-control form-control-sm" type="number" name="codigo" placeholder="Código del producto"><br>
+
+            <label><b><i>Foto URL</i></b></label><br>
+            
+            <input id="foto" class="form-control form-control-sm" type="text" name="foto" placeholder="URL de la foto"><br>
+
+            <label><b><i>Precio</i></b></label><br>
+            
+            <input id="precio" class="form-control form-control-sm" type="number" name="precio" placeholder="Precio del producto"><br>
+            
+            <label><b><i>Stock</i></b></label><br>
+            
+            <input id="stock" class="form-control form-control-sm" type="text" name="stock" placeholder="Stock del producto"><br>
+
+            <input class="btn btn-success" type="submit" value="Enviar">
+        </form>
     </div>
     
     <div class="container" id="container">
@@ -16,7 +44,7 @@
         </div>
     </div>
     
-    <div class="container">
+    <div class="container mt-5">
         <h2 class="titulo">Centro de mensajes</h3>
         
         <form id="form-chat">
@@ -40,14 +68,42 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
+        //Contenedores
         const rowProductos = document.getElementById("row-productos");
         const listaMensajes = document.getElementById("mensajes");
         const formChat = document.getElementById("form-chat");
+        const form = document.getElementById("form");
+
+        //Inputs
+        const nombre = document.getElementById('nombre');
+        const descripcion = document.getElementById('descripcion');
+        const codigo = document.getElementById('codigo');
+        const foto = document.getElementById('foto');
+        const precio = document.getElementById('precio');
+        const stock = document.getElementById('stock');
+
+        const email = document.getElementById('email');
+        const mensaje = document.getElementById('mensaje');
 
         let fecha = new Date();
-        
         let fechaFormateada= `${fecha.getDate()}/${fecha.getMonth()+1}/${fecha.getFullYear()} ${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`;
         
+        //Submit form
+        form.addEventListener('submit', () =>
+        {
+            const producto = 
+            {
+                nombre: nombre.value,
+                descripcion: descripcion.value,
+                codigo: codigo.value,
+                foto: foto.value,
+                precio: precio.value,
+                stock: stock.value 
+            }
+            socket.emit('client-message', JSON.stringify(producto));
+        });
+
+        //Submit chat
         formChat.addEventListener('submit' , (event) => 
         {
             event.preventDefault();
@@ -64,9 +120,23 @@
         socket.on('server-message', (strProducto) =>
         {
             producto = JSON.parse(strProducto);
-            tbody.innerHTML += `<td> ${producto.title} </td>
-            <td> $${producto.price} </td>
-            <td><img src="${producto.thumbnail}"</td>`;
+            rowProductos.innerHTML += 
+            `
+                        <div class="col-md-3">
+                            <div class="card mt-5" style="width:208px; height: 400px;">
+                            <img src="${producto.foto}" style="height: 128px; width: 128px; margin: auto;" class="card-img-top" alt="${producto.nombre}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${producto.nombre}</h5>
+                                    <p class ="card-subtitle text-muted">${producto.descripcion}</p>
+                                    <p class="card-text mb-1"><br>Fecha: ${producto.timestamp}<br>Precio: $${producto.precio}<br>Código: ${producto.codigo}<br>Stock: ${producto.stock}</p>
+                                    <form action="/carrito/${producto._id}" method="POST">
+                                        <button type="submit" class="btn btn-primary btn-sm">Agregar al carrito</button>
+                                    </form>
+                                    <a href="http://localhost:8080/productos/borrar/${producto._id}" class="btn btn-danger btn-sm">Borrar</a>
+                                </div>
+                            </div>
+                        </div> 
+            `;
         });
 
         socket.on('server-chat-message', (strDatosMensaje) => 
@@ -101,10 +171,10 @@
                                     <h5 class="card-title">${producto.nombre}</h5>
                                     <p class ="card-subtitle text-muted">${producto.descripcion}</p>
                                     <p class="card-text mb-1"><br>Fecha: ${producto.timestamp}<br>Precio: $${producto.precio}<br>Código: ${producto.codigo}<br>Stock: ${producto.stock}</p>
-                                    <form action="/carrito/${producto.id}" method="POST">
+                                    <form action="/carrito/${producto._id}" method="POST">
                                         <button type="submit" class="btn btn-primary btn-sm">Agregar al carrito</button>
                                     </form>
-                                    <a href="http://localhost:8080/productos/borrar/${producto.id}" class="btn btn-danger btn-sm">Borrar</a>
+                                    <a href="http://localhost:8080/productos/borrar/${producto._id}" class="btn btn-danger btn-sm">Borrar</a>
                                 </div>
                             </div>
                         </div>           

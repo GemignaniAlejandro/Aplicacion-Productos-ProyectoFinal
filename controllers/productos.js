@@ -1,4 +1,5 @@
-let Producto = require("../models/filesystem/Producto");
+let Producto = require("../models/mongodb/Producto");
+const BASE_URL = process.env.BASE_URL;
 
 let listar_productos = (req, res) =>
 {
@@ -6,13 +7,17 @@ let listar_productos = (req, res) =>
 
     if(!id)
     {
-        let productos = Producto.listarProductos();
-        res.json(productos);
+        Producto.listarProductos(function(err, productos){
+            console.log(productos);
+            res.json(productos);
+        });  
     }
     else
     {
-        let producto = Producto.mostrarProducto(id);
-        res.json(producto);
+        Producto.encontrarProductoPorId(id, function(err, producto){
+            console.log(producto);
+            res.json(producto);
+        });
     }
     
 }
@@ -25,28 +30,45 @@ let agregar_producto = (req, res) =>
     const foto = req.body.foto;
     const precio = req.body.precio;
     const stock = req.body.stock;
-    let producto = new Producto(nombre, descripcion, codigo, foto, precio, stock);
-    Producto.agregarProducto(producto);
-    res.json(producto);
+    
+    let producto = Producto.createInstance(nombre, descripcion, codigo, foto, precio, stock);
+    
+    Producto.agregarProducto(producto, function(err, newProducto){
+        res.redirect(BASE_URL);
+    });
 }
 
 let actualizar_producto = (req, res) =>
 {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const nombre = req.body.nombre;
     const descripcion = req.body.descripcion;
     const codigo = req.body.codigo;
     const foto = req.body.foto;
     const precio = req.body.precio;
     const stock = req.body.stock;
-    let producto = new Producto(nombre, descripcion, codigo, foto, precio, stock);
-    res.json(Producto.actualizarProducto(id, producto));
+    
+
+    Producto.encontrarProductoPorId(id, function(err, producto){
+        producto.timestamp = Date.now();
+        producto.nombre = nombre;
+        producto.descripcion = descripcion;
+        producto.codigo = codigo;
+        producto.foto = foto;
+        producto.precio = precio;
+        producto.stock = stock;
+        producto.save();
+        res.json(producto);
+        res.redirect(BASE_URL);
+    });
 }
 
 let borrar_producto = (req, res) => 
 {
-    const id = parseInt(req.params.id);
-    res.json(Producto.borrarProducto(id))
+    const id = req.params.id;
+    Producto.borrarProducto(id, function(err){
+        res.redirect(BASE_URL);
+    });
 }
 
 module.exports = {listar_productos, agregar_producto, actualizar_producto, borrar_producto};

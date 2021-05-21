@@ -19,7 +19,6 @@ let getMensajes = () =>
         arrayMensajes = mensajes.split(',\r\n');
         arrayMensajes.splice(arrayMensajes.length - 1, 1);
         let prueba = arrayMensajes.map((datosMensaje) => JSON.parse(datosMensaje));
-        console.log(prueba);
         return prueba;  
     }
     catch(error)
