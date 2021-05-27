@@ -7,12 +7,21 @@ const mensajeSchema = new Schema({
     mensaje: String
 });
 
-mensajeSchema.statics.agregarMensaje = (mensaje, cb) =>
+mensajeSchema.statics.createInstance = function(email, mensaje)
+{
+    return new this({
+        email: email,
+        fecha: Date.now(),
+        mensaje: mensaje
+    })
+}
+
+mensajeSchema.statics.agregarMensaje = function(mensaje, cb)
 {
     this.create(mensaje, cb);
 }
 
-mensajeSchema.statics.mostrarMensajes = (cb) => 
+mensajeSchema.statics.mostrarMensajes = function(cb) 
 {
     return this.find({}, cb);
 }

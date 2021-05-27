@@ -86,7 +86,7 @@
         const mensaje = document.getElementById('mensaje');
 
         let fecha = new Date();
-        let fechaFormateada= `${fecha.getDate()}/${fecha.getMonth()+1}/${fecha.getFullYear()} ${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`;
+        let fechaFormateada= `${fecha.getDate()}-${fecha.getMonth()+1}-${fecha.getFullYear()} ${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`;
         
         //Submit form
         form.addEventListener('submit', () =>
@@ -110,10 +110,10 @@
             const datosMensaje = 
             {
                 email: email.value,
-                fecha: fechaFormateada,
+                fecha: Date.now(),
                 mensaje: mensaje.value
             }
-            socket.emit('client-chat-message', JSON.stringify(datosMensaje));
+            socket.emit('client-chat-message', datosMensaje);
             mensaje.value = '';
         });
 
@@ -139,10 +139,10 @@
             `;
         });
 
-        socket.on('server-chat-message', (strDatosMensaje) => 
+        socket.on('server-chat-message', (datosMensaje) => 
         {
-            datosMensaje = JSON.parse(strDatosMensaje);
-            listaMensajes.innerHTML += `<b>${datosMensaje.email}</b>[${fechaFormateada}]: <i>${datosMensaje.mensaje}</i><br>`
+            //datosMensaje = JSON.parse(strDatosMensaje);
+            listaMensajes.innerHTML += `<b>${datosMensaje.email}</b>[${datosMensaje.fecha}]: <i>${datosMensaje.mensaje}</i><br>`
         });
 
             fetch("http://localhost:8080/mensajes")

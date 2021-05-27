@@ -4,7 +4,8 @@ const app = express();
 const httpServer = require('http').createServer(app);
 const io = require('socket.io')(httpServer);
 const mongoose = require('mongoose');
-const functions = require("./utils/functionsMensajes");
+//const functions = require("./utils/functionsMensajes");
+let mensajeModel = require("./models/mongodb/Mensaje");
 
 mongoose.connect("mongodb://localhost:27017/ecommerce", {
     useNewUrlParser: true,
@@ -38,7 +39,9 @@ io.on('connection', (socket) => {
 
     socket.on('client-chat-message', (datosMensaje) => 
     {
-        functions.addMensaje(JSON.parse(datosMensaje));
+        mensajeModel.agregarMensaje(datosMensaje, function(err, mensaje){
+            console.log(datosMensaje);
+        });
         io.emit('server-chat-message', datosMensaje);
     });
 });
