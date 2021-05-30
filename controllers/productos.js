@@ -1,3 +1,5 @@
+const path = require("path");
+const generadorProductos = require("../faker/fakerProductos");
 let Producto = require("../models/mongodb/Producto");
 const BASE_URL = process.env.BASE_URL;
 
@@ -71,4 +73,18 @@ let borrar_producto = (req, res) =>
     });
 }
 
-module.exports = {listar_productos, agregar_producto, actualizar_producto, borrar_producto};
+let listar_productos_faker = (req ,res) => 
+{
+    let cant = req.query.cant || 10;
+    let resp = [];
+    for(let i = 0 ;i < cant ; i++)
+    {
+        let productos = generadorProductos.get();
+        resp.push(productos);    
+    }
+    res.status(200).send(resp);
+}
+
+
+
+module.exports = {listar_productos, agregar_producto, actualizar_producto, borrar_producto, listar_productos_faker};
